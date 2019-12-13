@@ -1,0 +1,4 @@
+create: onCreate
+update: onUpdate
+remove: onRemove
+delete: onDelete

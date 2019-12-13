@@ -1,14 +1,20 @@
-use crate::args_loader::AnyStruct;
-
 mod args_loader;
+mod operators;
+use crate::args_loader::{load_operators, load_arguments};
 
-mod struct_data_lib;
 
-fn main() {
+/// qdb (path)
+fn main() -> std::io::Result<()>{
 
-    let args = args_loader::get_args(std::env::args());
-    let a : AnyStruct = AnyStruct{x: 1.0, y: 2.0};
-    AnyStruct::foo(args);
+    println!("[qdb-core]: load...");
+    let args     =  load_arguments();
+    let operators = load_operators(&args[1].to_string())?;
 
-    struct_data_lib::qdb_structs::QBinaryTree
+    for op in operators {
+
+    }
+
+    println!("[qdb-core]: has been load");
+
+    Ok(())
 }
