@@ -1,0 +1,11 @@
+name: qdb-cli
+version: "1.0.1"
+author: Vadim S. <vaskoooo9241@gmail.com>
+about: qdb command line interface. It's query processor.
+args:
+  - config:
+      short: c
+      long: config
+      value_name: FILE
+      help: Sets a custom qdb-file operator's
+      takes_value: true

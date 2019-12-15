@@ -7,3 +7,7 @@ Microprogramme - the small executable capable of accepting arguments.
 1. It's unix-like system consisting of other execution microprogrammes.
 2. Each microprogramme do it something one and do it great.
 3. Each microprogramme may be interchangeable.
+
+### Usage:
+./qdb <path to qdb-core.yml>
+qdb-core it's 

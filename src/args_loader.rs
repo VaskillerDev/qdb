@@ -23,13 +23,3 @@ pub fn load_operators ( path: &String) -> Result < Vec<Yaml>,Error > {
     Ok(docs)
 
 }
-
-#[doc = "Load arguments"]
-pub fn load_arguments () -> Vec<String>  {
-    let mut arguments = Vec::new();
-    for argument in std::env::args() {
-        arguments.push(argument.to_string());
-    }
-    if arguments.len() < 2 { panic!("Argument 'path' not found");}
-    arguments
-}

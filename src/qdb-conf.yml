@@ -1,0 +1,25 @@
+#Definition instance:
+  # name    : String
+  # type    : [action,  primitive]
+  # ignore  : Bool
+
+#Operator's types
+operator:
+  equal:    "="
+  notequal: "!="
+  br_open:  "("   #br - bracket open / close
+  br_close: ")"
+#Action's types
+action:
+  create:   onCreate
+  update:   onUpdate
+  remove:   onRemove
+  delete:   onDelete
+#Primitive's types
+primitive:
+  null:     null
+  integer:  integer
+  real:     real
+  text:     text
+  blob:     blob
+
