@@ -4,7 +4,6 @@ extern crate clap;
 mod args_loader;
 mod operators;
 
-use std::env;
 use crate::args_loader::{load_operators};
 use clap::App;
 
