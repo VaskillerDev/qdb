@@ -29,6 +29,7 @@ fn main(){
     load_resource(&src_dir,out_dir);
 }
 
+// Load files from RESOURCE_DIR and copy to target/<...>/resource
 fn load_resource (from : &PathBuf, to : &Path){
 
     fn copy_file(from : &PathBuf, to : &Path,file : &str ) {
