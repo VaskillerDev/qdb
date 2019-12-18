@@ -11,14 +11,14 @@ pub struct Container {
 impl Container {
 
 pub fn new(name : &str) -> Container{
-    let mut object : Container = Container {
+    let object : Container = Container {
         name: (name.to_string()),
         value: (HashMap::new())
     };
     object
 }
 
-pub fn get <Q> ( &mut self, key : &Q) -> Option<&RandomState>  {
+pub fn get  ( &mut self, key : &str) -> Option<&RandomState>  {
    self.value.get(key)
 }
 
