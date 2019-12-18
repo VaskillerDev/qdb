@@ -11,7 +11,7 @@ impl IoContainerResource {
 
 pub fn new() -> IoContainerResource {
     let object : IoContainerResource = IoContainerResource{ value: (Container::new("resource")) };
-
+    object
 }
 
 }
