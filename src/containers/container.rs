@@ -2,13 +2,17 @@ use std::collections::HashMap;
 use std::env::current_dir;
 
 // Container is instance for get/set values for safety access data
+#[doc = "Based Container. Represent directories patches from named directory"]
 pub struct Container {
     name: String,
     value: HashMap<String, String>,
 }
 
-// Implementation for container-based instance
+// Implementation for Based Container instance
 impl Container {
+    #[doc = "Create new Container with name.\n
+    name - set name for Container. Used for search for files in a named directory.\n
+    Example: Container::new('resource') used for represent files from /resource"]
     pub fn new(name: &str) -> Container {
         let object: Container = Container {
             name: (name.to_string()),

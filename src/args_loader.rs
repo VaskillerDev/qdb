@@ -7,16 +7,18 @@ use std::fs::File;
 use std::io::Error;
 use std::io::Read;
 
-pub fn load_args(mut _string: String) -> String {
+#[doc = "Load yaml-file with App metadata for clap's\n
+raw_yaml - string arg for accumulate value from function\n"]
+pub fn load_args(mut raw_yaml: String) -> String {
     let mut container = Container::new("resource");
     container.load_dir();
     let path_app = container.get("app.yml").unwrap();
 
     std::fs::File::open(path_app)
         .unwrap()
-        .read_to_string(&mut _string);
+        .read_to_string(&mut raw_yaml);
 
-    _string
+    raw_yaml
 }
 
 #[doc = "Load yaml-file with list of operator's\n
@@ -47,7 +49,13 @@ mod test {
     fn test_app_args_loader() -> std::io::Result<()> {
         let mut app_string = String::new();
         app_string = load_args(app_string);
-        let yaml = &YamlLoader::load_from_str(app_string.as_str()).unwrap()[0];
+        let yaml = YamlLoader::load_from_str(app_string.as_str());
+        match &yaml {
+            Ok(_) => println!("Vec<Yaml> loaded"),
+            Err(e) => println!("{:?}",e)
+        }
+        let yaml = &yaml.unwrap()[0];
         let matches = &App::from_yaml(yaml).get_matches();
+        Ok(())
     }
 }
