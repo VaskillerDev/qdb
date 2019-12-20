@@ -1,25 +1,53 @@
-extern crate  yaml_rust;
+extern crate yaml_rust;
 
-use yaml_rust::{YamlLoader};
-use std::io::Read;
-use std::fs::File;
 use self::yaml_rust::Yaml;
+use crate::containers::container::Container;
+use clap::{App, ArgMatches, YamlLoader};
+use std::fs::File;
 use std::io::Error;
+use std::io::Read;
+
+pub fn load_args(mut _string: String) -> String {
+    let mut container = Container::new("resource");
+    container.load_dir();
+    let path_app = container.get("app.yml").unwrap();
+
+    std::fs::File::open(path_app)
+        .unwrap()
+        .read_to_string(&mut _string);
+
+    _string
+}
 
 #[doc = "Load yaml-file with list of operator's\n
 path - path to file"]
-pub fn load_operators ( path: &String) -> Result < Vec<Yaml>,Error > {
-
-    assert!(std::path::Path::new(path).exists(),"File should not exists");
+pub fn load_operators(path: &String) -> Result<Vec<Yaml>, Error> {
+    assert!(
+        std::path::Path::new(path).exists(),
+        "File should not exists"
+    );
     let mut file = File::open(path)?;
     let mut content = String::new();
 
     file.read_to_string(&mut content)?;
 
-    let docs = match YamlLoader::load_from_str(content.as_str()) {
+    let docs: Vec<yaml_rust::Yaml> = match yaml_rust::YamlLoader::load_from_str(content.as_str()) {
         Ok(docs) => docs,
-        Err(_)=>  panic!("Yaml-file is broken"),
+        Err(_) => panic!("Yaml-file is broken"),
     };
     Ok(docs)
+}
 
+#[cfg(test)]
+mod test {
+    use crate::args_loader::{load_args, load_operators};
+    use clap::{App, YamlLoader};
+
+    #[test]
+    fn test_app_args_loader() -> std::io::Result<()> {
+        let mut app_string = String::new();
+        app_string = load_args(app_string);
+        let yaml = &YamlLoader::load_from_str(app_string.as_str()).unwrap()[0];
+        let matches = &App::from_yaml(yaml).get_matches();
+    }
 }
