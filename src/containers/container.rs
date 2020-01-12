@@ -44,7 +44,6 @@ impl Container {
 #[cfg(test)]
 mod test {
     use crate::containers::container::Container;
-
     #[test]
     fn test_container_load_dir() {
         let mut container = Container::new("resource");

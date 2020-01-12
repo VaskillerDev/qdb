@@ -41,5 +41,5 @@ fn load_resource(from: &PathBuf, to: &Path) {
     }
 
     copy_file(&from, &to, "qdb-conf.yml");
-    copy_file(&from, &to, "app.yml");
+    copy_file(&from, &to, "app-conf.yml");
 }

@@ -12,7 +12,7 @@ raw_yaml - string arg for accumulate value from function\n"]
 pub fn load_args(mut raw_yaml: String) -> String {
     let mut container = Container::new("resource");
     container.load_dir();
-    let path_app = container.get("app.yml").unwrap();
+    let path_app = container.get("app-conf.yml").unwrap();
 
     std::fs::File::open(path_app)
         .unwrap()
