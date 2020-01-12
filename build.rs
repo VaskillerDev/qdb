@@ -29,7 +29,7 @@ fn main() {
     load_resource(&src_dir, out_dir);
 }
 
-// Load files from RESOURCE_DIR and copy to target/<...>/resource
+// Load files from <RESOURCE_DIR> and copy to target/<...>/<RESOURCE_DIR>
 fn load_resource(from: &PathBuf, to: &Path) {
     fn copy_file(from: &PathBuf, to: &Path, file: &str) {
         let to = &to.join(RESOURCE_DIR).join(file);
@@ -39,7 +39,7 @@ fn load_resource(from: &PathBuf, to: &Path) {
             Err(e) => println!("{}", e),
         }
     }
-
+    // File's list for copy
     copy_file(&from, &to, "qdb-conf.yml");
     copy_file(&from, &to, "app-conf.yml");
 }

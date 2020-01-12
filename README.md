@@ -1,13 +1,12 @@
 # qDB - query database.
 ## Philosophy
 ### Definitions
-Microprogramme - the small executable capable of accepting arguments.
+Microprogram - the small executable capable of accepting arguments.
 
 ### Manifest
 1. It's unix-like system consisting of other execution microprogrammes.
-2. Each microprogramme do it something one and do it great.
-3. Each microprogramme may be interchangeable.
+2. Each microprogram do it something one and do it great.
+3. Each microprogram may be interchangeable.
 
 ### Usage:
-./qdb <path to qdb-core.yml>
-qdb-core it's 
+./qdb [-c/--config]
