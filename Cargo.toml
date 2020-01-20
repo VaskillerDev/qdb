@@ -1,5 +1,5 @@
 [package]
-name = "qdb"
+name = "qdb-executor"
 version = "0.1.0"
 authors = ["VaskillerDev vaskoooo9241@gmail.com"]
 edition = "2018"

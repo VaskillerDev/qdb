@@ -24,7 +24,10 @@ fn main() {
     println!("SRC_DIR: {}", src_dir.join("qdb-conf.yml").display());
     println!("OUT_DIR: {}", out_dir.display());
 
-    std::fs::create_dir(out_dir.join(RESOURCE_DIR));
+    match std::fs::create_dir(out_dir.join(RESOURCE_DIR)) {
+        Ok(_) => {}
+        Err(e) => println!("{}", e),
+    }
 
     load_resource(&src_dir, out_dir);
 }
@@ -35,7 +38,7 @@ fn load_resource(from: &PathBuf, to: &Path) {
         let to = &to.join(RESOURCE_DIR).join(file);
         let r = std::fs::copy(from.join(file), to);
         match r {
-            Ok(r) => println!("File {} copied to {}", file, to.display()),
+            Ok(_) => println!("File {} copied to {}", file, to.display()),
             Err(e) => println!("{}", e),
         }
     }

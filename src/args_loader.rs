@@ -2,14 +2,14 @@ extern crate yaml_rust;
 
 use self::yaml_rust::Yaml;
 use crate::containers::container::Container;
-use clap::{App, ArgMatches, YamlLoader};
+use clap::{App, YamlLoader};
 use std::fs::File;
 use std::io::Error;
 use std::io::Read;
 
 #[doc = "Load yaml-file with App metadata for clap's\n
 raw_yaml - string arg for accumulate value from function\n"]
-pub fn load_args(mut raw_yaml: String) -> String {
+fn load_args(mut raw_yaml: String) -> String {
     const CONTAINER_NAME: &str = "resource";
     const CONTAINER_KEY: &str = "app-conf.yml";
     let mut container = Container::new(CONTAINER_NAME);
@@ -31,13 +31,16 @@ pub fn load_args(mut raw_yaml: String) -> String {
         CONTAINER_KEY,
         path_app
     );
-    file.unwrap().read_to_string(&mut raw_yaml);
+    match file.unwrap().read_to_string(&mut raw_yaml) {
+        Ok(_) => {}
+        Err(e) => println!("{}", e),
+    }
     raw_yaml
 }
 
 #[doc = "Load yaml-file with list of operator's\n
 path - path to file"]
-pub fn load_operators(path: &String) -> Result<Vec<Yaml>, Error> {
+fn load_operators(path: &String) -> Result<Vec<Yaml>, Error> {
     assert!(
         std::path::Path::new(path).exists(),
         "File should not exists"
@@ -52,6 +55,22 @@ pub fn load_operators(path: &String) -> Result<Vec<Yaml>, Error> {
         Err(_) => panic!("Yaml-file is broken"),
     };
     Ok(docs)
+}
+
+#[doc = "load_args && load_operators"]
+pub fn exec() {
+    let mut app_string = String::new();
+    app_string = load_args(app_string);
+    let yaml = &YamlLoader::load_from_str(app_string.as_str()).unwrap()[0];
+    let matches = &App::from_yaml(&yaml).get_matches();
+
+    let app_config = matches.value_of("config").unwrap_or("");
+    let app_name = &yaml["name"].as_str().unwrap_or("");
+    println!("{}: load...", &app_name);
+
+    let _operators = load_operators(&app_config.to_string());
+
+    println!("{}: has been load", &app_name);
 }
 
 #[cfg(test)]
