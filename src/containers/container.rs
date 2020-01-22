@@ -46,7 +46,7 @@ impl Container {
         let path = path.join(&self.name);
         let files = path.read_dir();
         match &files {
-            Ok(_) => println!("Container '{}' has been find", &self.name),
+            Ok(_) => println!("Used container '{}'", &self.name),
             Err(e) => println!("{}", e),
         }
 

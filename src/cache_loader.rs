@@ -1,5 +1,6 @@
 use crate::containers::container::Container;
-use std::fs::create_dir;
+use std::fs;
+use std::fs::{create_dir, File};
 use std::path::PathBuf;
 
 fn is_cache_empty() -> bool {
@@ -30,24 +31,35 @@ fn create_cache() -> bool {
         }
     }
 }
-
-fn get_from_resource() {
+//copy files from '*/resource/' folder to '*/resource/.cache/'
+fn copy_from_resource_to_cache() -> bool {
     const CONTAINER_NAME: &str = "resource";
 
     let mut container = Container::new(CONTAINER_NAME);
     container.load_dir();
-    if container.is_empty() {
-        println!("Container '{}' empty", CONTAINER_NAME)
-    }
-    container.for_each(|x, y| println!("key: {} | value: {}", x, y));
+    let path = container.get(".cache").unwrap();
+    let root = container.get_root().unwrap();
+    let cache_word = String::from(".cache");
+    container.for_each(|key, val| {
+        if key != cache_word {
+            let target_path = PathBuf::from(path).join(key);
+            let target_path = target_path.as_path();
+            let r = fs::copy(val, target_path);
+            match r {
+                Ok(f) => println!("res: {}", f),
+                Err(e) => println!("err: {}", e),
+            }
+        }
+    });
+    true
 }
 
-#[doc = "(is_cache_empty -> create_cache) && get_from_resource"]
+#[doc = "(is_cache_empty -> create_cache) && copy_from_resource_to_cache"]
 pub fn exec() {
     if is_cache_empty() {
         create_cache();
     }
-    get_from_resource();
+    copy_from_resource_to_cache();
 }
 
 #[cfg(test)]
