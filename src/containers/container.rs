@@ -47,7 +47,10 @@ impl Container {
         let files = path.read_dir();
         match &files {
             Ok(_) => println!("Used container '{}'", &self.name),
-            Err(e) => println!("{}", e),
+            Err(e) => {
+                eprintln!("Container error: {}", e);
+                return;
+            }
         }
 
         files.unwrap().for_each(|file| {

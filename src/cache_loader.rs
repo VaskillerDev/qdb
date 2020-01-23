@@ -4,15 +4,11 @@ use std::fs::{create_dir, File};
 use std::path::PathBuf;
 
 fn is_cache_empty() -> bool {
-    const CONTAINER_NAME: &str = "resource";
+    const CONTAINER_NAME: &str = ".cache";
 
     let mut container = Container::new(CONTAINER_NAME);
     container.load_dir();
-
-    match container.get(".cache") {
-        Some(_) => false,
-        None => true,
-    }
+    container.is_empty()
 }
 
 fn create_cache() -> bool {
@@ -23,10 +19,10 @@ fn create_cache() -> bool {
     let root = container.get_root();
     assert_eq!(root.is_some(), true);
     let path = PathBuf::from(root.unwrap());
-    match create_dir(path.join(CONTAINER_NAME).join(".cache")) {
+    match create_dir(path.join(".cache")) {
         Ok(_) => true,
         Err(e) => {
-            println!("Error: {}", e);
+            println!("Error: {:?}", e);
             false
         }
     }
@@ -34,21 +30,23 @@ fn create_cache() -> bool {
 //copy files from '*/resource/' folder to '*/resource/.cache/'
 fn copy_from_resource_to_cache() -> bool {
     const CONTAINER_NAME: &str = "resource";
+    const CONTAINER_NAME_CACHE: &str = ".cache";
 
     let mut container = Container::new(CONTAINER_NAME);
     container.load_dir();
-    let path = container.get(".cache").unwrap();
-    let root = container.get_root().unwrap();
-    let cache_word = String::from(".cache");
+
+    let mut container_cache = Container::new(CONTAINER_NAME_CACHE);
+    container_cache.load_dir();
+
+    let path = container_cache.get_root().unwrap();
+    let cache_word = String::from(CONTAINER_NAME_CACHE);
     container.for_each(|key, val| {
         if key != cache_word {
-            let target_path = PathBuf::from(path).join(key);
-            let target_path = target_path.as_path();
-            let r = fs::copy(val, target_path);
-            match r {
-                Ok(f) => println!("res: {}", f),
-                Err(e) => println!("err: {}", e),
-            }
+            let from = PathBuf::from(&val);
+            let from = from.as_path();
+            let to = PathBuf::from(&path).join(CONTAINER_NAME_CACHE).join(key);
+            let to = to.as_path();
+            let r = fs::copy(from, to);
         }
     });
     true
@@ -66,18 +64,16 @@ pub fn exec() {
 mod test {
     use super::*;
 
-    #[test] //container 'resource' check file '.cache'
-    fn test_is_cache_empty() {
-        assert_eq!(is_cache_empty(), false, "Cache folder is not found");
-    }
-
     #[test]
-    fn test_create_cache() {
-        create_cache();
-    }
-
-    #[test]
-    fn test_get_from_resource() {
-        get_from_resource();
+    fn test_exec() {
+        if is_cache_empty() {
+            assert_eq!(create_cache(), true, "cache folder not created");
+        }
+        copy_from_resource_to_cache();
+        assert_eq!(
+            is_cache_empty(),
+            false,
+            "cache folder is empty or not found"
+        );
     }
 }
