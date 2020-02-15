@@ -70,7 +70,7 @@ pub fn exec() -> AppInfo {
         .unwrap_or("./.cache/qdb-conf.yml");
     let app_name = &yaml["name"].as_str().unwrap_or("");
     let app_version = &yaml["version"].as_str().unwrap_or("");
-    let app_debug = &yaml["debug"].as_bool().unwrap_or(false);
+    let _app_debug = &yaml["debug"].as_bool().unwrap_or(false);
     println!("{}: load...", &app_name);
 
     let operators: Result<Vec<yaml_rust::Yaml>, Error> = load_operators(&app_config.to_string());

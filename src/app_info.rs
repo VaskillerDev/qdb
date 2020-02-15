@@ -18,16 +18,14 @@ impl AppInfo {
         operators: Vec<Yaml>,
         exec: bool,
     ) -> AppInfo {
-        let object: AppInfo = AppInfo {
+        AppInfo {
             name,
             version,
             debug,
             operators,
             exec,
             query: "".to_string(),
-        };
-
-        object
+        }
     }
 
     pub fn run(&self) {}

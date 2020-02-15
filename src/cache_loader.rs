@@ -46,7 +46,7 @@ fn copy_from_resource_to_cache() -> bool {
             let from = from.as_path();
             let to = PathBuf::from(&path).join(CONTAINER_NAME_CACHE).join(key);
             let to = to.as_path();
-            let r = fs::copy(from, to);
+            let _r = fs::copy(from, to);
         }
     });
     true
