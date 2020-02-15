@@ -1,6 +1,6 @@
 use crate::containers::container::Container;
 use std::fs;
-use std::fs::{create_dir, File};
+use std::fs::create_dir;
 use std::path::PathBuf;
 
 fn is_cache_empty() -> bool {
