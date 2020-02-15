@@ -1,6 +1,7 @@
 extern crate yaml_rust;
 
 use self::yaml_rust::Yaml;
+use crate::app_info::AppInfo;
 use crate::containers::container::Container;
 use clap::{App, YamlLoader};
 use std::fs::File;
@@ -10,7 +11,7 @@ use std::io::Read;
 #[doc = "Load yaml-file with App metadata for clap's\n
 raw_yaml - string arg for accumulate value from function\n"]
 fn load_args(mut raw_yaml: String) -> String {
-    const CONTAINER_NAME: &str = "resource";
+    const CONTAINER_NAME: &str = ".cache";
     const CONTAINER_KEY: &str = "app-conf.yml";
     let mut container = Container::new(CONTAINER_NAME);
     container.load_dir();
@@ -58,19 +59,30 @@ fn load_operators(path: &String) -> Result<Vec<Yaml>, Error> {
 }
 
 #[doc = "load_args && load_operators"]
-pub fn exec() {
+pub fn exec() -> AppInfo {
     let mut app_string = String::new();
     app_string = load_args(app_string);
     let yaml = &YamlLoader::load_from_str(app_string.as_str()).unwrap()[0];
     let matches = &App::from_yaml(&yaml).get_matches();
 
-    let app_config = matches.value_of("config").unwrap_or("");
+    let app_config = matches
+        .value_of("exegete")
+        .unwrap_or("./.cache/qdb-conf.yml");
     let app_name = &yaml["name"].as_str().unwrap_or("");
+    let app_version = &yaml["version"].as_str().unwrap_or("");
+    let app_debug = &yaml["debug"].as_bool().unwrap_or(false);
     println!("{}: load...", &app_name);
 
-    let _operators = load_operators(&app_config.to_string());
-
+    let operators: Result<Vec<yaml_rust::Yaml>, Error> = load_operators(&app_config.to_string());
     println!("{}: has been load", &app_name);
+    let app_info = AppInfo::new(
+        app_name.to_string(),
+        app_version.to_string(),
+        false,
+        operators.unwrap(),
+        true,
+    );
+    app_info
 }
 
 #[cfg(test)]
