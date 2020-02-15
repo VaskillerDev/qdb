@@ -15,11 +15,12 @@ action:
   update:   onUpdate
   remove:   onRemove
   delete:   onDelete
+  catch:    catch
 #Primitive's types
 primitive:
   null:     null
+  bool:     bool
   integer:  integer
   real:     real
   text:     text
   blob:     blob
-
