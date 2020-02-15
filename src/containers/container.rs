@@ -2,6 +2,8 @@ use std::collections::HashMap;
 use std::env::current_dir;
 use std::ffi::OsString;
 
+static DEBUG: bool = false;
+
 // Container is instance for get/set values for safety access data
 #[doc = "Based Container - key/value storage. Represent directories patches from named directory"]
 pub struct Container {
@@ -46,7 +48,11 @@ impl Container {
         let path = path.join(&self.name);
         let files = path.read_dir();
         match &files {
-            Ok(_) => println!("Used container '{}'", &self.name),
+            Ok(_) => {
+                if DEBUG {
+                    println!("Used container '{}'", &self.name)
+                }
+            }
             Err(e) => {
                 eprintln!("Container error: {}", e);
                 return;
