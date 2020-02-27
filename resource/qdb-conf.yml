@@ -20,7 +20,7 @@ action:
 primitive:
   null:     null
   bool:     bool
-  integer:  integer
+  integer:  int
   real:     real
   text:     text
-  blob:     blob
+  #blob:     blob
