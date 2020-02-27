@@ -1,0 +1,22 @@
+// ANNOTATION:
+// ->       - to transform
+// term     - terminal
+// nterm    - non-terminal
+// prod     - production
+// op       - operator
+// [x...]   - set of abstract x
+// |        - or
+
+// RULES:
+// nterm -> [term...]
+// prod ->  nterm op term  | term  -> nterm op term | term
+//
+
+// CREATE EXAMPLE:
+
+// step one: raw text
+onCreate(a : int,b : bool,c : real)
+
+// step two: set terminals and non-terminals as expression
+onCreate(a : int,b : bool,c : real) ->
+    token
