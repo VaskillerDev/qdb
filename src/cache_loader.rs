@@ -3,17 +3,16 @@ use std::fs;
 use std::fs::create_dir;
 use std::path::PathBuf;
 
-fn is_cache_empty() -> bool {
-    const CONTAINER_NAME: &str = ".cache";
+const CONTAINER_NAME: &str = "resource";
+const CONTAINER_NAME_CACHE: &str = ".cache";
 
-    let mut container = Container::new(CONTAINER_NAME);
+fn is_cache_empty() -> bool {
+    let mut container = Container::new(CONTAINER_NAME_CACHE);
     container.load_dir();
     container.is_empty()
 }
 
 fn create_cache() -> bool {
-    const CONTAINER_NAME: &str = "resource";
-
     let mut container = Container::new(CONTAINER_NAME);
     container.load_dir();
     let root = container.get_root();
@@ -29,9 +28,6 @@ fn create_cache() -> bool {
 }
 //copy files from '*/resource/' folder to '*/resource/.cache/'
 fn copy_from_resource_to_cache() -> bool {
-    const CONTAINER_NAME: &str = "resource";
-    const CONTAINER_NAME_CACHE: &str = ".cache";
-
     let mut container = Container::new(CONTAINER_NAME);
     container.load_dir();
 

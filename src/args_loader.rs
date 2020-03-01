@@ -8,11 +8,12 @@ use std::fs::File;
 use std::io::Error;
 use std::io::Read;
 
+const CONTAINER_NAME: &str = ".cache";
+const CONTAINER_KEY: &str = "app-conf.yml";
+
 #[doc = "Load yaml-file with App metadata for clap's\n
 raw_yaml - string arg for accumulate value from function\n"]
 fn load_args(mut raw_yaml: String) -> String {
-    const CONTAINER_NAME: &str = ".cache";
-    const CONTAINER_KEY: &str = "app-conf.yml";
     let mut container = Container::new(CONTAINER_NAME);
     container.load_dir();
     let path_app = container.get(CONTAINER_KEY);
