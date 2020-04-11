@@ -1,3 +1,4 @@
+# [is frozen]
 # qDB - query database.
 ## Philosophy
 ### Definitions
